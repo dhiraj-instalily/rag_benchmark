@@ -5,6 +5,7 @@ import joblib
 from llama_parse import LlamaParse
 
 
+
 def load_or_parse_data(list_file_path, output_file):
     if os.path.exists(output_file):
         # Load the parsed data from the file
@@ -24,7 +25,9 @@ def load_or_parse_data(list_file_path, output_file):
     return parsed_data
 
 
+
 #run parser
-list_file_path = ["data/hayward_1.pdf", "data/hayward_2.pdf", "data/hayward_3.pdf", "data/hayward_4.pdf", "data/hayward_5.pdf"]
-output_file = "output/hayward.pkl"
-test = load_or_parse_data(list_file_path, output_file)
+# list_file_path = ["data/hayward_1.pdf", "data/hayward_2.pdf", "data/hayward_3.pdf", "data/hayward_4.pdf", "data/hayward_5.pdf"]
+# output_file = "output/hayward.pkl"
+# test = load_or_parse_data(list_file_path, output_file)
+
