@@ -68,8 +68,9 @@ def collect_chat_history(client, thread):
 def save_chat_history_to_file(collected_messages, file_path):
     """Save the collected chat history to a text file."""
     with open(file_path, 'w') as file:
-        for message in collected_messages:
-            file.write(message + "\n")
+        for message_list in collected_messages:
+            for message in message_list:
+                file.write(message + "\n")
 
 def main():
     client = initialize_client()
@@ -77,16 +78,17 @@ def main():
     assistant_id_to_use = "asst_1TJkaPLevxkcyhUbeqWQar4b"
     user_queries = [
     "What modes does the J&J's ColorSplash XG-W Series Inground Pool and Spa Fixtures offer?",
+    "What is the cord length for the model number 23002?"
     ]
 
     assistant = get_or_create_assistant(client, get_premade_assistant, assistant_id_to_use)
-
+    collected_messages = []
     for query in user_queries:
         thread = create_new_thread(client)
         time.sleep(3)
         add_message_and_run_thread(client, assistant, thread, query)
-        collected_messages=collect_chat_history(client, thread)
-        save_chat_history_to_file(collected_messages, 'chat_history.txt')
+        collected_messages.append(collect_chat_history(client, thread))
+    save_chat_history_to_file(collected_messages, 'chat_history.txt')
 
 if __name__ == "__main__":
     main()
