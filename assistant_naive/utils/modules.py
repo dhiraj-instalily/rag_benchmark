@@ -1,6 +1,6 @@
 # Description: "Create a new Assistant"
 
-def create_assistant(client, name, description, instructions, tools=[], model="gpt-3.5-turbo-1106"):
+def create_assistant(client, name, description, instructions, tools=[], model="gpt-4"):
     assistant = client.beta.assistants.create(
     name=name,
     description=description,

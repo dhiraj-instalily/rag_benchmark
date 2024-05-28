@@ -50,22 +50,33 @@ def add_message_and_run_thread(client, assistant, thread, query):
     print(f"Message added: {new_message}")
     run_chat(client, thread, assistant)
     print(f"Run initiated for query: {query}")
-    time.sleep(20)
+    time.sleep(30)
 
-def retrieve_chat_history(client, thread):
-    """Retrieve and print the chat history."""
+def collect_chat_history(client, thread):
+    """Retrieve and collect the chat history."""
     history = get_messages_in_chat(client, thread)
     messages = history.data[::-1]
+    collected_messages = []
+    
     for message in messages:
-        print(message.role.upper() + ": " + message.content[0].text.value)
+        answer = message.content[0].text.value
+        print(answer)
+        collected_messages.append(f"{message.role.upper()}: {answer}")
+
+    return collected_messages
+
+def save_chat_history_to_file(collected_messages, file_path):
+    """Save the collected chat history to a text file."""
+    with open(file_path, 'w') as file:
+        for message in collected_messages:
+            file.write(message + "\n")
 
 def main():
     client = initialize_client()
     get_premade_assistant = True
     assistant_id_to_use = "asst_1TJkaPLevxkcyhUbeqWQar4b"
     user_queries = [
-        "Super pumps",
-        "Tristar 950 specification",
+    "What modes does the J&J's ColorSplash XG-W Series Inground Pool and Spa Fixtures offer?",
     ]
 
     assistant = get_or_create_assistant(client, get_premade_assistant, assistant_id_to_use)
@@ -74,7 +85,8 @@ def main():
         thread = create_new_thread(client)
         time.sleep(3)
         add_message_and_run_thread(client, assistant, thread, query)
-        retrieve_chat_history(client, thread)
+        collected_messages=collect_chat_history(client, thread)
+        save_chat_history_to_file(collected_messages, 'chat_history.txt')
 
 if __name__ == "__main__":
     main()
